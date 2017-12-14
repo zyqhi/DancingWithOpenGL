@@ -191,9 +191,9 @@ const GLubyte Indices[] = {
     glClear(GL_COLOR_BUFFER_BIT);
     
     // 1
-    glViewport(0, 0, self.frame.size.width/2, self.frame.size.width/2);
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
-    // 2
+    // Feed the correct values to the input variables for the vertex shader – the `Position` and `SourceColor` attributes.
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     
