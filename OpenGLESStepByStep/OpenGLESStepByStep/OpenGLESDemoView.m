@@ -10,17 +10,25 @@
 #import <QuartzCore/QuartzCore.h>
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
+#import "CC3GLMatrix.h"
 
 typedef struct {
     float Position[3];
     float Color[4];
 } Vertex;
 
+//const Vertex Vertices[] = {
+//    {{1, -1, 0}, {1, 0, 0, 1}},
+//    {{1, 1, 0}, {0, 1, 0, 1}},
+//    {{-1, 1, 0}, {0, 0, 1, 1}},
+//    {{-1, -1, 0}, {0, 0, 0, 1}}
+//};
+
 const Vertex Vertices[] = {
-    {{1, -1, 0}, {1, 0, 0, 1}},
-    {{1, 1, 0}, {0, 1, 0, 1}},
-    {{-1, 1, 0}, {0, 0, 1, 1}},
-    {{-1, -1, 0}, {0, 0, 0, 1}}
+    {{1, -1, -7}, {1, 0, 0, 1}},
+    {{1, 1, -7}, {0, 1, 0, 1}},
+    {{-1, 1, -7}, {0, 0, 1, 1}},
+    {{-1, -1, -7}, {0, 0, 0, 1}}
 };
 
 const GLubyte Indices[] = {
@@ -36,6 +44,8 @@ const GLubyte Indices[] = {
 
 @property (nonatomic, assign) GLuint colorSlot;
 @property (nonatomic, assign) GLuint positionSlot;
+@property (nonatomic, assign) GLuint projectionUniform;
+
 
 @end
 
@@ -115,7 +125,6 @@ const GLubyte Indices[] = {
 #pragma mark - Shaders
 
 - (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType {
-    
     // 1
     NSString *shaderPath = [[NSBundle mainBundle] pathForResource:shaderName
                                                            ofType:@"glsl"];
@@ -182,6 +191,7 @@ const GLubyte Indices[] = {
     _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
+    _projectionUniform = glGetUniformLocation(programHandle, "Projection");
 }
 
 #pragma mark -
@@ -189,6 +199,11 @@ const GLubyte Indices[] = {
 - (void)render {
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    CC3GLMatrix *projection = [CC3GLMatrix matrix];
+    float h = 4.0f * self.frame.size.height / self.frame.size.width;
+    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
+    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
     // 1
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
