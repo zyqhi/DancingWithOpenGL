@@ -32,6 +32,7 @@
         [self setupContext];
         [self setupRenderBuffer];
         [self setupFrameBuffer];
+        [self compileShaders];
         [self render];
     }
     return self;
