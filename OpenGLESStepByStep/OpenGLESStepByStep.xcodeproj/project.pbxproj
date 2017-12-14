@@ -13,6 +13,7 @@
 		8ABD04481FE27C8A00C9B08A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8ABD04471FE27C8A00C9B08A /* Assets.xcassets */; };
 		8ABD044B1FE27C8A00C9B08A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ABD04491FE27C8A00C9B08A /* LaunchScreen.storyboard */; };
 		8ABD044E1FE27C8A00C9B08A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABD044D1FE27C8A00C9B08A /* main.m */; };
+		8ABD04561FE27CDD00C9B08A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABD04551FE27CDC00C9B08A /* OpenGLES.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8ABD044A1FE27C8A00C9B08A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8ABD044C1FE27C8A00C9B08A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8ABD044D1FE27C8A00C9B08A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8ABD04551FE27CDC00C9B08A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ABD04561FE27CDD00C9B08A /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +47,7 @@
 			children = (
 				8ABD043D1FE27C8A00C9B08A /* OpenGLESStepByStep */,
 				8ABD043C1FE27C8A00C9B08A /* Products */,
+				8ABD04541FE27CDC00C9B08A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +73,14 @@
 				8ABD044D1FE27C8A00C9B08A /* main.m */,
 			);
 			path = OpenGLESStepByStep;
+			sourceTree = "<group>";
+		};
+		8ABD04541FE27CDC00C9B08A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8ABD04551FE27CDC00C9B08A /* OpenGLES.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
