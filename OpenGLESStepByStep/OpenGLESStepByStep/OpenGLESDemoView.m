@@ -24,11 +24,14 @@ typedef struct {
 //    {{-1, -1, 0}, {0, 0, 0, 1}}
 //};
 
+// Visible between near and far plane [-10, -4]
+#define Z_AXIS (-4)
+
 const Vertex Vertices[] = {
-    {{1, -1, -7}, {1, 0, 0, 1}},
-    {{1, 1, -7}, {0, 1, 0, 1}},
-    {{-1, 1, -7}, {0, 0, 1, 1}},
-    {{-1, -1, -7}, {0, 0, 0, 1}}
+    {{1, -1, Z_AXIS}, {1, 0, 0, 1}},
+    {{1, 1, Z_AXIS}, {0, 1, 0, 1}},
+    {{-1, 1, Z_AXIS}, {0, 0, 1, 1}},
+    {{-1, -1, Z_AXIS}, {0, 0, 0, 1}}
 };
 
 const GLubyte Indices[] = {
