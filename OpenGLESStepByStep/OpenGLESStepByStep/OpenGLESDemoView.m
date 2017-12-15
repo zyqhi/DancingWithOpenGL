@@ -12,53 +12,47 @@
 #include <OpenGLES/ES2/glext.h>
 #import "CC3GLMatrix.h"
 
+#define TEX_COORD_MAX   1
+
 typedef struct {
     float Position[3];
     float Color[4];
+    float TexCoord[2];
 } Vertex;
 
-//const Vertex Vertices[] = {
-//    {{1, -1, 0}, {1, 0, 0, 1}},
-//    {{1, 1, 0}, {1, 0, 0, 1}},
-//    {{-1, 1, 0}, {0, 1, 0, 1}},
-//    {{-1, -1, 0}, {0, 1, 0, 1}},
-//    {{1, -1, -1}, {1, 0, 0, 1}},
-//    {{1, 1, -1}, {1, 0, 0, 1}},
-//    {{-1, 1, -1}, {0, 1, 0, 1}},
-//    {{-1, -1, -1}, {0, 1, 0, 1}}
-//};
+#define TEX_COORD_MAX   1
 
 const Vertex Vertices[] = {
     // Front
-    {{1, -1, 0}, {1, 0, 0, 1}},
-    {{1, 1, 0}, {0, 1, 0, 1}},
-    {{-1, 1, 0}, {0, 0, 1, 1}},
-    {{-1, -1, 0}, {0, 0, 0, 1}},
+    {{1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
     // Back
-    {{1, 1, -2}, {1, 0, 0, 1}},
-    {{-1, -1, -2}, {0, 1, 0, 1}},
-    {{1, -1, -2}, {0, 0, 1, 1}},
-    {{-1, 1, -2}, {0, 0, 0, 1}},
+    {{1, 1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{-1, -1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{1, -1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, 1, -2}, {0, 0, 0, 1}, {0, 0}},
     // Left
-    {{-1, -1, 0}, {1, 0, 0, 1}},
-    {{-1, 1, 0}, {0, 1, 0, 1}},
-    {{-1, 1, -2}, {0, 0, 1, 1}},
-    {{-1, -1, -2}, {0, 0, 0, 1}},
+    {{-1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{-1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, -2}, {0, 0, 0, 1}, {0, 0}},
     // Right
-    {{1, -1, -2}, {1, 0, 0, 1}},
-    {{1, 1, -2}, {0, 1, 0, 1}},
-    {{1, 1, 0}, {0, 0, 1, 1}},
-    {{1, -1, 0}, {0, 0, 0, 1}},
+    {{1, -1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
     // Top
-    {{1, 1, 0}, {1, 0, 0, 1}},
-    {{1, 1, -2}, {0, 1, 0, 1}},
-    {{-1, 1, -2}, {0, 0, 1, 1}},
-    {{-1, 1, 0}, {0, 0, 0, 1}},
+    {{1, 1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, 1, 0}, {0, 0, 0, 1}, {0, 0}},
     // Bottom
-    {{1, -1, -2}, {1, 0, 0, 1}},
-    {{1, -1, 0}, {0, 1, 0, 1}},
-    {{-1, -1, 0}, {0, 0, 1, 1}},
-    {{-1, -1, -2}, {0, 0, 0, 1}}
+    {{1, -1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, -1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, -1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, -2}, {0, 0, 0, 1}, {0, 0}}
 };
 
 const GLubyte Indices[] = {
@@ -95,6 +89,11 @@ const GLubyte Indices[] = {
 @property (nonatomic, assign) GLuint modelViewUniform;
 @property (nonatomic, assign) GLfloat currentRotation;
 
+@property (nonatomic, assign) GLuint floorTexture;
+@property (nonatomic, assign) GLuint fishTexture;
+@property (nonatomic, assign) GLuint texCoordSlot;
+@property (nonatomic, assign) GLuint textureUniform;
+
 @end
 
 @implementation OpenGLESDemoView
@@ -110,6 +109,8 @@ const GLubyte Indices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVertexBufferObjects];
+        _floorTexture = [self setupTexture:@"tile_floor.png"];
+        
         [self setupDisplayLink];
     }
     return self;
@@ -178,6 +179,38 @@ const GLubyte Indices[] = {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 }
 
+
+- (GLuint)setupTexture:(NSString *)fileName {
+    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    if (!spriteImage) {
+        NSLog(@"Failed to load image %@", fileName);
+        exit(1);
+    }
+    
+    size_t width = CGImageGetWidth(spriteImage);
+    size_t height = CGImageGetHeight(spriteImage);
+    
+    GLubyte *spriteData = (GLubyte *)calloc(width*height*4, sizeof(GLubyte));
+    
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
+                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
+    CGContextRelease(spriteContext);
+    
+    GLuint texName;
+    // Create a texture object and give us its unique ID (called “name”).
+    glGenTextures(1, &texName);
+    // Load our new texture name into the current texture unit
+    glBindTexture(GL_TEXTURE_2D, texName);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    // Send the pixel data buffer we created earlier over to OpenGL
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+    free(spriteData);
+    
+    return texName;
+}
+
 #pragma mark -
 
 - (void)setupDisplayLink {
@@ -188,9 +221,7 @@ const GLubyte Indices[] = {
 #pragma mark - Shaders
 
 - (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType {
-    // 1
-    NSString *shaderPath = [[NSBundle mainBundle] pathForResource:shaderName
-                                                           ofType:@"glsl"];
+    NSString *shaderPath = [[NSBundle mainBundle] pathForResource:shaderName ofType:@"glsl"];
     NSError *error;
     NSString *shaderString = [NSString stringWithContentsOfFile:shaderPath
                                                        encoding:NSUTF8StringEncoding error:&error];
@@ -199,18 +230,14 @@ const GLubyte Indices[] = {
         exit(1);
     }
     
-    // 2
     GLuint shaderHandle = glCreateShader(shaderType);
     
-    // 3
     const char *shaderStringUTF8 = [shaderString UTF8String];
     int shaderStringLength = (int)[shaderString length];
     glShaderSource(shaderHandle, 1, &shaderStringUTF8, &shaderStringLength);
     
-    // 4
     glCompileShader(shaderHandle);
     
-    // 5
     GLint compileSuccess;
     glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &compileSuccess);
     if (compileSuccess == GL_FALSE) {
@@ -223,6 +250,7 @@ const GLubyte Indices[] = {
     
     return shaderHandle;
 }
+
 
 - (void)compileShaders {
     // 1
@@ -256,6 +284,9 @@ const GLubyte Indices[] = {
     glEnableVertexAttribArray(_colorSlot);
     _projectionUniform = glGetUniformLocation(programHandle, "Projection");
     _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
+    _texCoordSlot = glGetAttribLocation(programHandle, "TexCoordIn");
+    glEnableVertexAttribArray(_texCoordSlot);
+    _textureUniform = glGetUniformLocation(programHandle, "Texture");
 }
 
 #pragma mark -
@@ -291,14 +322,17 @@ const GLubyte Indices[] = {
     [modelViewMat rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
     
-    // 1
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
     // Feed the correct values to the input variables for the vertex shader – the `Position` and `SourceColor` attributes.
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     
-    // 3
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _floorTexture);
+    glUniform1i(_textureUniform, 0);
+
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
