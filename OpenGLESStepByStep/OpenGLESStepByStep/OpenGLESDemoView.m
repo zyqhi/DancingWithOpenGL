@@ -225,7 +225,7 @@ const GLubyte Indices[] = {
     /*
      沿z轴平移距离4
      */
-    [modelViewMat populateFromTranslation:CC3VectorMake(0, 0, -4)];
+    [modelViewMat populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -4)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
     
     // 1
