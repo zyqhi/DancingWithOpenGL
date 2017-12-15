@@ -145,12 +145,15 @@ const GLubyte Indices[] = {
 
 - (void)update {
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 4.0f, 10.0f);
+    GLKMatrix4 projectionMatrix;// = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 4.0f, 10.0f);
+    projectionMatrix = GLKMatrix4MakeFrustum(-2, 2, -2/aspect, 2/aspect, 4, 10);
     self.effect.transform.projectionMatrix = projectionMatrix;
     
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -6.0f);
     _rotation += 90 * self.timeSinceLastUpdate;
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(35), 1, 0, 0);
+    // 旋转旋转的是整个坐标系
+//    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(90), 1, 0, 0);
+    // Rotate around Y-AXIS
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 1, 0);
     self.effect.transform.modelviewMatrix = modelViewMatrix;
     
