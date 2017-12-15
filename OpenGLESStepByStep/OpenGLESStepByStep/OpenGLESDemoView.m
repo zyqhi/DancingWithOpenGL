@@ -235,7 +235,7 @@ const GLubyte Indices[] = {
     
     _currentRotation += displayLink.duration * 90;
     // 旋转
-    [modelViewMat rotateBy:CC3VectorMake(_currentRotation, 0, 0)];
+    [modelViewMat rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
     
     // 1
