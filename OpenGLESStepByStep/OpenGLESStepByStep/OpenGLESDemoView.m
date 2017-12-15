@@ -49,7 +49,7 @@ const GLubyte Indices[] = {
 @property (nonatomic, assign) GLuint positionSlot;
 @property (nonatomic, assign) GLuint projectionUniform;
 @property (nonatomic, assign) GLuint modelViewUniform;
-
+@property (nonatomic, assign) GLfloat currentRotation;
 
 @end
 
@@ -229,10 +229,13 @@ const GLubyte Indices[] = {
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
     CC3GLMatrix *modelViewMat = [CC3GLMatrix matrix];
-    /*
-     沿z轴平移距离4
-     */
-    [modelViewMat populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -4)];
+    
+    // 沿z轴平移距离4
+    [modelViewMat populateFromTranslation:CC3VectorMake(0, 0, -7)];
+    
+    _currentRotation += displayLink.duration * 90;
+    // 旋转
+    [modelViewMat rotateBy:CC3VectorMake(0, 0, _currentRotation)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
     
     // 1
