@@ -65,7 +65,7 @@ const GLubyte Indices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVertexBufferObjects];
-        [self render];
+        [self setupDisplayLink];
     }
     return self;
 }
@@ -124,6 +124,13 @@ const GLubyte Indices[] = {
     glGenBuffers(1, &indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+}
+
+#pragma mark -
+
+- (void)setupDisplayLink {
+    CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
+    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 #pragma mark - Shaders
@@ -201,7 +208,7 @@ const GLubyte Indices[] = {
 
 #pragma mark -
 
-- (void)render {
+- (void)render:(CADisplayLink *)displayLink {
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
