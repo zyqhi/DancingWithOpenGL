@@ -339,12 +339,19 @@ const GLubyte Indices2[] = {
     // 旋转
     [modelViewMat rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
-    
+
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+
+    [self renderCube];
+    [self renderFish];
     
+    [_context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+
+- (void)renderCube {
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    
     
     // Feed the correct values to the input variables for the vertex shader – the `Position` and `SourceColor` attributes.
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
@@ -357,7 +364,10 @@ const GLubyte Indices2[] = {
     
     // GL_TRIANGLES makes triangles by every three vertices
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
+}
+
+
+- (void)renderFish {
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
     
@@ -365,16 +375,12 @@ const GLubyte Indices2[] = {
     glBindTexture(GL_TEXTURE_2D, _fishTexture);
     glUniform1i(_textureUniform, 0);
     
-    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
-    
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-   
+    
     // GL_TRIANGLE_STRIP makes new triangles by combining the previous two vertices with the next vertex.
     glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
-    
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 @end
