@@ -25,7 +25,7 @@ typedef struct {
 //};
 
 // Visible between near and far plane [-10, -4]
-#define Z_AXIS (-4)
+#define Z_AXIS (-1)
 
 const Vertex Vertices[] = {
     {{1, -1, Z_AXIS}, {1, 0, 0, 1}},
@@ -48,6 +48,7 @@ const GLubyte Indices[] = {
 @property (nonatomic, assign) GLuint colorSlot;
 @property (nonatomic, assign) GLuint positionSlot;
 @property (nonatomic, assign) GLuint projectionUniform;
+@property (nonatomic, assign) GLuint modelViewUniform;
 
 
 @end
@@ -195,6 +196,7 @@ const GLubyte Indices[] = {
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
     _projectionUniform = glGetUniformLocation(programHandle, "Projection");
+    _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
 }
 
 #pragma mark -
@@ -218,6 +220,13 @@ const GLubyte Indices[] = {
      */
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-2*h andTop:2*h andNear:4 andFar:10];
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
+    
+    CC3GLMatrix *modelViewMat = [CC3GLMatrix matrix];
+    /*
+     沿z轴平移距离4
+     */
+    [modelViewMat populateFromTranslation:CC3VectorMake(0, 0, -4)];
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
     
     // 1
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
