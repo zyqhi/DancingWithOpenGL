@@ -313,6 +313,8 @@ const GLubyte Indices2[] = {
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
     
     CC3GLMatrix *projection = [CC3GLMatrix matrix];
     float h = self.frame.size.height / self.frame.size.width;
