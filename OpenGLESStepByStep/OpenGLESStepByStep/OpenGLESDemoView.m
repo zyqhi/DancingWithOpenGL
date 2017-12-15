@@ -204,8 +204,19 @@ const GLubyte Indices[] = {
     glClear(GL_COLOR_BUFFER_BIT);
     
     CC3GLMatrix *projection = [CC3GLMatrix matrix];
-    float h = 4.0f * self.frame.size.height / self.frame.size.width;
-    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
+    float h = self.frame.size.height / self.frame.size.width;
+    /*
+     下述方法确定一个截头椎体，该方法的参数都是比例关系。
+     比如left和right参数分别为-1和1时，表示截头椎体的near面左侧和右侧的x坐标分别为 {-1, 0} 和 {1, 0} （OpenGL坐标）
+     比如left和right参数分别为-2和2时，表示截头椎体的near面左侧和右侧的x坐标分别为 {-1/2, 0} 和 {1/2, 0}
+     
+     top和bottom参数原理类似，但需要注意OpenGL使用的是归一化后的坐标，对于高宽不同的屏幕而言，{1, 0} 和 {0, 1} 到原点的物理距离并不相同
+     
+     near和far参数分别代表截头椎体near面和far面沿z轴到原点的距离。
+     但需要注意的是near面之前和far面之后的区域在视觉上不可见，这一点可以通过调整vertex矩阵的z轴坐标来实验，比如z轴坐标为-3时不可见，为-11时也不可见。
+     z轴的可见区间为[-10, -4]
+     */
+    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-2*h andTop:2*h andNear:4 andFar:10];
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
     // 1
