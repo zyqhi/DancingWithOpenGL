@@ -12,15 +12,13 @@
 #include <OpenGLES/ES2/glext.h>
 #import "CC3GLMatrix.h"
 
-#define TEX_COORD_MAX   1
+#define TEX_COORD_MAX   4
 
 typedef struct {
     float Position[3];
     float Color[4];
     float TexCoord[2];
 } Vertex;
-
-#define TEX_COORD_MAX   1
 
 const Vertex Vertices[] = {
     // Front
