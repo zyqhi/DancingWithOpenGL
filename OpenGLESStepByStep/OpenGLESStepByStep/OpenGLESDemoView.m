@@ -54,6 +54,7 @@ const GLubyte Indices[] = {
 @property (nonatomic, strong) CAEAGLLayer *eaglLayer;
 @property (nonatomic, strong) EAGLContext *context;
 @property (nonatomic, assign) GLuint colorRenderBuffer;
+@property (nonatomic, assign) GLuint depthRenderBuffer;
 
 @property (nonatomic, assign) GLuint colorSlot;
 @property (nonatomic, assign) GLuint positionSlot;
@@ -71,6 +72,7 @@ const GLubyte Indices[] = {
     if (self) {
         [self setupLayer];
         [self setupContext];
+        [self setupDepthBuffer]; // Must be called before setupRenderBuffer
         [self setupRenderBuffer];
         [self setupFrameBuffer];
         [self compileShaders];
@@ -115,12 +117,19 @@ const GLubyte Indices[] = {
 }
 
 
+- (void)setupDepthBuffer {
+    glGenRenderbuffers(1, &_depthRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, self.frame.size.width, self.frame.size.height);
+}
+
+
 - (void)setupFrameBuffer {
     GLuint framebuffer;
     glGenFramebuffers(1, &framebuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, _colorRenderBuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderBuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBuffer);
 }
 
 
@@ -220,7 +229,8 @@ const GLubyte Indices[] = {
 
 - (void)render:(CADisplayLink *)displayLink {
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
     
     CC3GLMatrix *projection = [CC3GLMatrix matrix];
     float h = self.frame.size.height / self.frame.size.width;
