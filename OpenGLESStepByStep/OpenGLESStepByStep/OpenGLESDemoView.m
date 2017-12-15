@@ -74,6 +74,18 @@ const GLubyte Indices[] = {
     22, 23, 20
 };
 
+const Vertex Vertices2[] = {
+    {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
+    {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
+    {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
+    {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
+};
+
+const GLubyte Indices2[] = {
+    1, 0, 2, 3
+};
+
+
 @interface OpenGLESDemoView ()
 
 @property (nonatomic, strong) CAEAGLLayer *eaglLayer;
@@ -89,8 +101,14 @@ const GLubyte Indices[] = {
 
 @property (nonatomic, assign) GLuint floorTexture;
 @property (nonatomic, assign) GLuint fishTexture;
+
 @property (nonatomic, assign) GLuint texCoordSlot;
 @property (nonatomic, assign) GLuint textureUniform;
+
+@property (nonatomic, assign) GLuint vertexBuffer;
+@property (nonatomic, assign) GLuint vertexBuffer2;
+@property (nonatomic, assign) GLuint indexBuffer;
+@property (nonatomic, assign) GLuint indexBuffer2;
 
 @end
 
@@ -108,6 +126,7 @@ const GLubyte Indices[] = {
         [self compileShaders];
         [self setupVertexBufferObjects];
         _floorTexture = [self setupTexture:@"tile_floor.png"];
+        _fishTexture = [self setupTexture:@"item_powerup_fish"];
         
         [self setupDisplayLink];
     }
@@ -166,15 +185,21 @@ const GLubyte Indices[] = {
 
 
 - (void)setupVertexBufferObjects {
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
     
-    GLuint indexBuffer;
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+    glGenBuffers(1, &_indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &_vertexBuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices2, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &_indexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
 }
 
 
@@ -317,6 +342,10 @@ const GLubyte Indices[] = {
     
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    
+    
     // Feed the correct values to the input variables for the vertex shader – the `Position` and `SourceColor` attributes.
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
@@ -325,8 +354,23 @@ const GLubyte Indices[] = {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _floorTexture);
     glUniform1i(_textureUniform, 0);
-
+    
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _fishTexture);
+    glUniform1i(_textureUniform, 0);
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
+    
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }

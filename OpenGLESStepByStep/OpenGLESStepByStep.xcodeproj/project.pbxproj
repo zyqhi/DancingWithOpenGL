@@ -14,6 +14,7 @@
 		8A38A5D41FE299D300051727 /* CC3Math.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A38A5CC1FE299D300051727 /* CC3Math.m */; };
 		8A38A5D51FE299D300051727 /* CC3GLMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A38A5CD1FE299D300051727 /* CC3GLMatrix.m */; };
 		8A38A5D71FE3A56F00051727 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A38A5D61FE3A56E00051727 /* tile_floor.png */; };
+		8A38A5DB1FE3AFEB00051727 /* item_powerup_fish.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A38A5DA1FE3AFEB00051727 /* item_powerup_fish.png */; };
 		8ABD04401FE27C8A00C9B08A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABD043F1FE27C8A00C9B08A /* AppDelegate.m */; };
 		8ABD04431FE27C8A00C9B08A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABD04421FE27C8A00C9B08A /* ViewController.m */; };
 		8ABD04461FE27C8A00C9B08A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ABD04441FE27C8A00C9B08A /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		8A38A5D01FE299D300051727 /* CC3Kazmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CC3Kazmath.h; sourceTree = "<group>"; };
 		8A38A5D11FE299D300051727 /* CC3Foundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CC3Foundation.h; sourceTree = "<group>"; };
 		8A38A5D61FE3A56E00051727 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
+		8A38A5DA1FE3AFEB00051727 /* item_powerup_fish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = item_powerup_fish.png; sourceTree = "<group>"; };
 		8ABD043B1FE27C8A00C9B08A /* OpenGLESStepByStep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLESStepByStep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ABD043E1FE27C8A00C9B08A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8ABD043F1FE27C8A00C9B08A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		8ABD043D1FE27C8A00C9B08A /* OpenGLESStepByStep */ = {
 			isa = PBXGroup;
 			children = (
+				8A38A5DA1FE3AFEB00051727 /* item_powerup_fish.png */,
 				8A38A5D61FE3A56E00051727 /* tile_floor.png */,
 				8A38A5C71FE299D300051727 /* Cocos3DMathLib */,
 				8A38A5C31FE291F400051727 /* SimpleFragment.glsl */,
@@ -187,6 +190,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A38A5DB1FE3AFEB00051727 /* item_powerup_fish.png in Resources */,
 				8ABD044B1FE27C8A00C9B08A /* LaunchScreen.storyboard in Resources */,
 				8A38A5C51FE291F400051727 /* SimpleFragment.glsl in Resources */,
 				8A38A5D71FE3A56F00051727 /* tile_floor.png in Resources */,
