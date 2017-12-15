@@ -253,17 +253,14 @@ const GLubyte Indices[] = {
 
 
 - (void)compileShaders {
-    // 1
     GLuint vertexShader = [self compileShader:@"SimpleVertex" withType:GL_VERTEX_SHADER];
     GLuint fragmentShader = [self compileShader:@"SimpleFragment" withType:GL_FRAGMENT_SHADER];
     
-    // 2
     GLuint programHandle = glCreateProgram();
     glAttachShader(programHandle, vertexShader);
     glAttachShader(programHandle, fragmentShader);
     glLinkProgram(programHandle);
     
-    // 3
     GLint linkSuccess;
     glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
     if (linkSuccess == GL_FALSE) {
@@ -274,10 +271,8 @@ const GLubyte Indices[] = {
         exit(1);
     }
     
-    // 4
     glUseProgram(programHandle);
     
-    // 5
     _positionSlot = glGetAttribLocation(programHandle, "Position");
     _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
     glEnableVertexAttribArray(_positionSlot);

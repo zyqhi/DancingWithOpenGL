@@ -1,7 +1,7 @@
-attribute vec4 Position; // 1
-attribute vec4 SourceColor; // 2
+attribute vec4 Position;
+attribute vec4 SourceColor;
 
-varying vec4 DestinationColor; // 3
+varying vec4 DestinationColor;
 
 uniform mat4 Projection;
 uniform mat4 Modelview;
