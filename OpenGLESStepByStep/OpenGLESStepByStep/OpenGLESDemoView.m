@@ -8,9 +8,11 @@
 
 #import "OpenGLESDemoView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "CC3GLMatrix.h"
+#import <GLKit/GLKit.h>
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
-#import "CC3GLMatrix.h"
+
 
 #define TEX_COORD_MAX   4
 
@@ -316,7 +318,7 @@ const GLubyte Indices2[] = {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     
-    CC3GLMatrix *projection = [CC3GLMatrix matrix];
+//    CC3GLMatrix *projection = [CC3GLMatrix matrix];
     float h = self.frame.size.height / self.frame.size.width;
     /*
      下述方法确定一个截头椎体，该方法的参数都是比例关系。
@@ -329,9 +331,13 @@ const GLubyte Indices2[] = {
      但需要注意的是near面之前和far面之后的区域在视觉上不可见，这一点可以通过调整vertex矩阵的z轴坐标来实验，比如z轴坐标为-3时不可见，为-11时也不可见。
      z轴的可见区间为[-10, -4]
      */
-    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-2*h andTop:2*h andNear:4 andFar:10];
-    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
+//    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-2*h andTop:2*h andNear:4 andFar:10];
+//    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakeFrustum(-2, 2, -2*h, 2*h, 4, 10);
+    glUniformMatrix4fv(_projectionUniform, 1, 0, projectionMatrix.m);
+    
+    /*
     CC3GLMatrix *modelViewMat = [CC3GLMatrix matrix];
     
     // 沿z轴平移距离4
@@ -341,6 +347,17 @@ const GLubyte Indices2[] = {
     // 旋转
     [modelViewMat rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMat.glMatrix);
+    */
+    
+    _currentRotation += displayLink.duration * 90;
+
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0, 0, -7);
+//    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_currentRotation), 1, 1, 0);
+    // 下面两个调用与上一个调用产生的效果不同
+    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(_currentRotation));
+    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(_currentRotation));
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMatrix.m);
 
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 

@@ -23,6 +23,7 @@
 		8ABD044E1FE27C8A00C9B08A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABD044D1FE27C8A00C9B08A /* main.m */; };
 		8ABD04561FE27CDD00C9B08A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABD04551FE27CDC00C9B08A /* OpenGLES.framework */; };
 		8ABD04591FE27D4100C9B08A /* OpenGLESDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABD04581FE27D4100C9B08A /* OpenGLESDemoView.m */; };
+		8AD7C3F71FE8BA48002FD84F /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD7C3F61FE8BA48002FD84F /* GLKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		8ABD04551FE27CDC00C9B08A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ABD04571FE27D4100C9B08A /* OpenGLESDemoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLESDemoView.h; sourceTree = "<group>"; };
 		8ABD04581FE27D4100C9B08A /* OpenGLESDemoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLESDemoView.m; sourceTree = "<group>"; };
+		8AD7C3F61FE8BA48002FD84F /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AD7C3F71FE8BA48002FD84F /* GLKit.framework in Frameworks */,
 				8ABD04561FE27CDD00C9B08A /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +130,7 @@
 		8ABD04541FE27CDC00C9B08A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8AD7C3F61FE8BA48002FD84F /* GLKit.framework */,
 				8ABD04551FE27CDC00C9B08A /* OpenGLES.framework */,
 			);
 			name = Frameworks;
